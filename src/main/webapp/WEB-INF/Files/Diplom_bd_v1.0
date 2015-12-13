@@ -1,0 +1,100 @@
+CREATE USER Diplom@localhost identified BY '1234';
+GRANT usage ON *.* TO Diplom@localhost identified BY '1234';
+CREATE DATABASE IF NOT EXISTS Diplom_bd;
+GRANT ALL privileges ON Diplom_bd.* TO Diplom@localhost;
+USE Diplom_bd;
+CREATE TABLE PROJECTS
+  (
+     id        INT PRIMARY KEY UNSIGNED NOT NULL AUTO_INCREMENT,
+     name      VARCHAR(100) NOT NULL,
+     over_proj INT,
+     created   TIMESTAMP DEFAULT NOW(),
+     finished  TIMESTAMP,
+     manager   INT NOT NULL,
+     description VARCHAR(400) NOT NULL
+  ); 
+
+CREATE TABLE UNIT
+  (
+     id          INT PRIMARY KEY UNSIGNED NOT NULL AUTO_INCREMENT,
+     name        VARCHAR(100) NOT NULL,
+     material    VARCHAR(50) NOT NULL,
+     model       INT UNSIGNED NOT NULL,
+     version     VARCHAR(4),
+     id_provider INT UNSIGNED,
+     id_creator  INT UNSIGNED
+  ); 
+
+CREATE TABLE PROJECT_USER_LINKS
+  (
+     id         INT PRIMARY KEY UNSIGNED NOT NULL AUTO_INCREMENT,
+     project_id INT UNSIGNED NOT NULL,
+     user_id    INT UNSIGNED NOT NULL
+  ); 
+
+CREATE TABLE  UNIT_USER_LINKS
+  (
+     id        INT PRIMARY KEY UNSIGNED NOT NULL AUTO_INCREMENT,
+     unit_id   INT UNSIGNED NOT NULL,
+     user_id   INT UNSIGNED NOT NULL
+  ); 
+
+CREATE TABLE   PROJECT_UNITS_LINKS
+  (
+     id          INT PRIMARY KEY UNSIGNED NOT NULL AUTO_INCREMENT,
+     project_id  INT UNSIGNED NOT NULL,
+     unit_id     INT UNSIGNED NOT NULL
+  );
+
+CREATE TABLE UNIT_FILES_LINKS
+  (
+     id        INT PRIMARY KEY UNSIGNED NOT NULL AUTO_INCREMENT,
+     unit_id   INT UNSIGNED NOT NULL,
+     file_id   INT UNSIGNED NOT NULL
+  );
+  
+CREATE TABLE USERS
+  (
+     id        INT PRIMARY KEY UNSIGNED NOT NULL AUTO_INCREMENT,
+     name        VARCHAR(10) NOT NULL,
+     family_name VARCHAR(20) NOT NULL,
+     telephone   VARCHAR(10) NOT NULL,
+     job         VARCHAR(15) NOT NULL,
+     company     VARCHAR(50) NOT NULL,
+     email       VARCHAR(20) NOT NULL,
+     role        INT UNSIGNED NOT NULL
+     
+  );
+  
+CREATE TABLE FILE
+  (
+     id        INT PRIMARY KEY UNSIGNED NOT NULL AUTO_INCREMENT,
+     name          VARCHAR(15)  NOT NULL
+     extention     VARCHAR(3)   NOT NULL
+     description   VARCHAR(200) NOT NULL
+     role          INT UNSIGNED NOT NULL
+     add_date      TIMESTAMP DEFAULT NOW(), 
+     version       VARCHAR(4) NOT NULL,
+     size          INT NOT NULL,
+     manager       INT NOT NULL,
+     user_id       INT NOT NULL
+  );
+  
+CREATE TABLE PROVIDER
+  (
+     id          INT PRIMARY KEY UNSIGNED NOT NULL AUTO_INCREMENT,
+     name        VARCHAR(10)  NOT NULL,
+     family_name VARCHAR(20)  NOT NULL,
+     company     VARCHAR(50)  NOT NULL,
+     telephone   VARCHAR(10)  NOT NULL,
+     address     VARCHAR(100) NOT NULL
+  );
+  
+CREATE TABLE CREATOR
+  (
+     id        INT PRIMARY KEY UNSIGNED NOT NULL AUTO_INCREMENT,
+     company     VARCHAR(50)  NOT NULL,
+     telephone   VARCHAR(10)  NOT NULL,
+     address     VARCHAR(100) NOT NULL
+
+  ); 

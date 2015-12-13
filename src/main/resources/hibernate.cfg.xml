@@ -1,0 +1,23 @@
+<?xml version='1.0' encoding='utf-8'?>
+<!DOCTYPE hibernate-configuration PUBLIC
+    "-//Hibernate/Hibernate Configuration DTD//EN"
+    "http://hibernate.sourceforge.net/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<session-factory>
+	     <mapping class="net.khai.diplom.domain.Provider" />
+	    <mapping class="net.khai.diplom.domain.Project" />
+	    
+        <mapping class="net.khai.diplom.domain.Files" />
+        <mapping class="net.khai.diplom.domain.Project_Units_Links" />
+	    <mapping class="net.khai.diplom.domain.Project_User_Links" />
+	    <mapping class="net.khai.diplom.domain.Unit_Files_Links" />
+	    <mapping class="net.khai.diplom.domain.Unit_User_Links" />
+	    <mapping class="net.khai.diplom.domain.Unit" />
+	    <mapping class="net.khai.diplom.domain.User" />
+	    <mapping class="net.khai.diplom.domain.Rules" />
+	    <mapping class="net.khai.diplom.domain.Wokers" />
+	    <mapping class="net.khai.diplom.domain.ORG_STR_Element" />
+	    <mapping class="net.khai.diplom.domain.Project_Files_Links" />	   
+	</session-factory>
+</hibernate-configuration>

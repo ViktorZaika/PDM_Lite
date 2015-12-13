@@ -1,0 +1,137 @@
+CREATE USER Diplom@localhost identified BY '1234';
+GRANT usage ON *.* TO Diplom@localhost identified BY '1234';
+CREATE DATABASE IF NOT EXISTS Diplom_bd;
+GRANT ALL privileges ON Diplom_bd.* TO Diplom@localhost;
+USE Diplom_bd;
+
+CREATE TABLE PROVIDER
+  (
+     id          INT  UNSIGNED NOT NULL AUTO_INCREMENT,
+     name        VARCHAR(10)  NOT NULL,
+     family_name VARCHAR(20)  NOT NULL,
+     company     VARCHAR(50)  NOT NULL,
+     telephone   VARCHAR(10)  NOT NULL,
+     address     VARCHAR(100) NOT NULL,
+     PRIMARY KEY (id)
+    
+  );
+  
+CREATE TABLE CREATOR
+  (
+     id          INT  UNSIGNED NOT NULL AUTO_INCREMENT,
+     company     VARCHAR(50)  NOT NULL,
+     telephone   VARCHAR(10)  NOT NULL,
+     address     VARCHAR(100) NOT NULL,
+    PRIMARY KEY (id)
+  ); 
+
+CREATE TABLE PROJECTS
+  (
+     id        INT  UNSIGNED NOT NULL AUTO_INCREMENT,
+     name      VARCHAR(100) NOT NULL,
+     over_proj INT UNSIGNED,
+     created   TIMESTAMP DEFAULT NOW(),
+     finished  TIMESTAMP,
+     manager   INT UNSIGNED NOT NULL,
+     description VARCHAR(400) NOT NULL,
+     PRIMARY KEY (id)
+  ); 
+
+CREATE TABLE UNIT
+  (
+     id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     name        VARCHAR(100) NOT NULL,
+     material    VARCHAR(50) NOT NULL,
+     model       INT UNSIGNED NOT NULL,
+     version     VARCHAR(4),
+     id_provider INT UNSIGNED,
+     id_creator  INT UNSIGNED,
+     PRIMARY KEY (id),
+     Foreign key (id_provider) REFERENCES  PROVIDER (id),
+     Foreign key (id_creator) REFERENCES CREATOR (id)  
+  ); 
+
+CREATE TABLE USERS
+  (
+     id          INT  UNSIGNED NOT NULL AUTO_INCREMENT,
+     name        VARCHAR(10) NOT NULL,
+     family_name VARCHAR(20) NOT NULL,
+     telephone   VARCHAR(10) NOT NULL,
+     job         VARCHAR(15) NOT NULL,
+     company     VARCHAR(50) NOT NULL,
+     email       VARCHAR(20) NOT NULL,
+     role        INT UNSIGNED NOT NULL,
+     PRIMARY KEY (id)
+      );
+  
+CREATE TABLE FILE
+  (
+     id            INT  UNSIGNED NOT NULL AUTO_INCREMENT,
+     name          VARCHAR(15)  NOT NULL,
+     extention     VARCHAR(3)   NOT NULL,
+     description   VARCHAR(200) NOT NULL,
+     role          INT UNSIGNED NOT NULL,
+     add_date      TIMESTAMP DEFAULT NOW(), 
+     version       VARCHAR(4) NOT NULL,
+     size          INT UNSIGNED NOT NULL,
+     manager       INT UNSIGNED NOT NULL,
+     user_id       INT UNSIGNED NOT NULL,
+     PRIMARY KEY (id),
+     Foreign key (user_id) REFERENCES  USERS (id)  
+  );
+  
+
+
+CREATE TABLE PROJECT_USER_LINKS
+  (
+     id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     project_id INT UNSIGNED NOT NULL,
+     user_id    INT UNSIGNED NOT NULL,
+     PRIMARY KEY(id),
+     Foreign key (project_id) REFERENCES  PROJECTS (id),
+     Foreign key (user_id) REFERENCES  USERS (id)
+  ); 
+
+CREATE TABLE  UNIT_USER_LINKS
+  (
+     id        INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     unit_id   INT UNSIGNED NOT NULL,
+     user_id   INT UNSIGNED NOT NULL,
+     PRIMARY KEY(id),
+     Foreign key (user_id) REFERENCES  USERS (id),
+     Foreign key (unit_id) REFERENCES  UNIT (id)
+  ); 
+
+CREATE TABLE   PROJECT_UNITS_LINKS
+  (
+     id          INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     project_id  INT UNSIGNED NOT NULL,
+     unit_id     INT UNSIGNED NOT NULL,
+     PRIMARY KEY(id),    
+     Foreign key (project_id) REFERENCES PROJECTS (id),
+     Foreign key (unit_id) REFERENCES  UNIT (id)  
+  );
+
+CREATE TABLE UNIT_FILES_LINKS
+  (
+     id        INT UNSIGNED NOT NULL AUTO_INCREMENT,
+     unit_id   INT UNSIGNED NOT NULL,
+     file_id   INT UNSIGNED NOT NULL,
+     PRIMARY KEY(id),
+     Foreign key (unit_id) REFERENCES  UNIT (id),
+     Foreign key (file_id) REFERENCES  FILE (id)
+  );
+  CREATE TABLE WORKS
+  (
+  	id         INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  	name       VARCHAR(30) NOT NULL,
+  	duration   INT UNSIGNED NOT NULL,
+  	project_id INT UNSIGNED,
+  	unit_id    INT UNSIGNED,  
+  	id_previos INT UNSIGNED,
+  	PRIMARY KEY(id),
+    Foreign key (unit_id) REFERENCES  UNIT (id),
+    Foreign key (project_id) REFERENCES  PROJECTS (id) 
+  );
+  
+
